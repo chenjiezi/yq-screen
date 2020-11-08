@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <Table :height="this.mainHeight" size="small" border :columns="columns2" :data="data4"></Table>
+  <div class="rank-container">
+    <Table stripe :height="this.mainHeight" size="small" border :columns="columns2" :data="data4"></Table>
   </div>
 </template>
 
@@ -12,192 +12,68 @@ export default {
     return {
       columns2: [
         {
-          title: 'Address',
-          key: 'address',
+          title: '地区',
+          key: 'name',
+          align: 'center'
         },
         {
-          title: 'Action',
-          key: 'action',
-          render: (h, params) => {
-            return h('div', [
-              h(
-                'Button',
-                {
-                  props: {
-                    type: 'text',
-                    size: 'small',
-                  },
-                },
-                'View'
-              ),
-              h(
-                'Button',
-                {
-                  props: {
-                    type: 'text',
-                    size: 'small',
-                  },
-                },
-                'Edit'
-              ),
-            ])
-          },
+          title: '现有确诊',
+          key: 'nowConfirm',
+          align: 'center',
+          sortable: true
         },
+        {
+          title: '累计确诊',
+          key: 'confirm',
+          align: 'center',
+          sortable: true
+        },
+        {
+          title: '治愈',
+          key: 'heal',
+          align: 'center'
+        },
+        {
+          title: '死亡',
+          key: 'dead',
+          align: 'center'
+        }
       ],
-      data4: [
-        {
-          name: 'John Brown',
-          age: 18,
-          address: 'New York No. 1 Lake Park',
-          province: 'America',
-          city: 'New York',
-          zip: 100000,
-        },
-        {
-          name: 'John Brown',
-          age: 18,
-          address: 'New York No. 1 Lake Park',
-          province: 'America',
-          city: 'New York',
-          zip: 100000,
-        },
-        {
-          name: 'John Brown',
-          age: 18,
-          address: 'New York No. 1 Lake Park',
-          province: 'America',
-          city: 'New York',
-          zip: 100000,
-        },
-        {
-          name: 'John Brown',
-          age: 18,
-          address: 'New York No. 1 Lake Park',
-          province: 'America',
-          city: 'New York',
-          zip: 100000,
-        },
-        {
-          name: 'John Brown',
-          age: 18,
-          address: 'New York No. 1 Lake Park',
-          province: 'America',
-          city: 'New York',
-          zip: 100000,
-        },
-        {
-          name: 'John Brown',
-          age: 18,
-          address: 'New York No. 1 Lake Park',
-          province: 'America',
-          city: 'New York',
-          zip: 100000,
-        },
-        {
-          name: 'John Brown',
-          age: 18,
-          address: 'New York No. 1 Lake Park',
-          province: 'America',
-          city: 'New York',
-          zip: 100000,
-        },
-        {
-          name: 'John Brown',
-          age: 18,
-          address: 'New York No. 1 Lake Park',
-          province: 'America',
-          city: 'New York',
-          zip: 100000,
-        },
-        {
-          name: 'John Brown',
-          age: 18,
-          address: 'New York No. 1 Lake Park',
-          province: 'America',
-          city: 'New York',
-          zip: 100000,
-        },
-        {
-          name: 'John Brown',
-          age: 18,
-          address: 'New York No. 1 Lake Park',
-          province: 'America',
-          city: 'New York',
-          zip: 100000,
-        },
-        {
-          name: 'John Brown',
-          age: 18,
-          address: 'New York No. 1 Lake Park',
-          province: 'America',
-          city: 'New York',
-          zip: 100000,
-        },
-        {
-          name: 'Jim Green',
-          age: 24,
-          address: 'Washington, D.C. No. 1 Lake Park',
-          province: 'America',
-          city: 'Washington, D.C.',
-          zip: 100000,
-        },
-        {
-          name: 'Joe Black',
-          age: 30,
-          address: 'Sydney No. 1 Lake Park',
-          province: 'Australian',
-          city: 'Sydney',
-          zip: 100000,
-        },
-        {
-          name: 'Jon Snow',
-          age: 26,
-          address: 'Ottawa No. 2 Lake Park',
-          province: 'Canada',
-          city: 'Ottawa',
-          zip: 100000,
-        },
-        {
-          name: 'John Brown',
-          age: 18,
-          address: 'New York No. 1 Lake Park',
-          province: 'America',
-          city: 'New York',
-          zip: 100000,
-        },
-        {
-          name: 'Jim Green',
-          age: 24,
-          address: 'Washington, D.C. No. 1 Lake Park',
-          province: 'America',
-          city: 'Washington, D.C.',
-          zip: 100000,
-        },
-        {
-          name: 'Joe Black',
-          age: 30,
-          address: 'Sydney No. 1 Lake Park',
-          province: 'Australian',
-          city: 'Sydney',
-          zip: 100000,
-        },
-        {
-          name: 'Jon Snow',
-          age: 26,
-          address: 'Ottawa No. 2 Lake Park',
-          province: 'Canada',
-          city: 'Ottawa',
-          zip: 100000,
-        },
-      ],
+      data4: [],
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.getData().then((data) => {
+        const res = []
+        data.children.forEach(item => {
+          const { name, total: { nowConfirm, confirm, heal, dead } } = item
+
+          res.push({ name, nowConfirm, confirm, heal, dead })
+        })
+        this.data4 = res
+      })
+    })
   },
   computed: {
     ...mapState([
       'mainHeight',
     ])
   },
+  methods: {
+    // 获取疫情数据
+    getData () {
+      return  this.$axios.get('http://localhost:8888/api/disease_china').then(data => {
+        return data.data.areaTree[0]
+      })
+    },
+  }
 }
 </script>
 
-<style lang="stylus"></style>
+<style lang="stylus">
+.rank-container
+  /deep/ .ivu-table-cell
+    padding 0 !important
+    font-size 16px
+</style>
