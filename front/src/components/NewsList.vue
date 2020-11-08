@@ -1,74 +1,14 @@
 <template>
-  <div>
-    <Scroll :height="this.mainHeight">
-      <Timeline>
-        <TimelineItem>
-            <p class="time">1976年</p>
-            <p class="content">Apple I 问世</p>
-        </TimelineItem>
-        <TimelineItem>
-            <p class="time">1984年</p>
-            <p class="content">发布 Macintosh</p>
-        </TimelineItem>
-        <TimelineItem>
-            <p class="time">2007年</p>
-            <p class="content">发布 iPhone</p>
-        </TimelineItem>
-        <TimelineItem>
-            <p class="time">2010年</p>
-            <p class="content">发布 iPad</p>
-        </TimelineItem>
-        <TimelineItem>
-            <p class="time">2011年10月5日</p>
-            <p class="content">史蒂夫·乔布斯去世</p>
-        </TimelineItem>
-        <TimelineItem>
-            <p class="time">1984年</p>
-            <p class="content">发布 Macintosh</p>
-        </TimelineItem>
-        <TimelineItem>
-            <p class="time">2007年</p>
-            <p class="content">发布 iPhone</p>
-        </TimelineItem>
-        <TimelineItem>
-            <p class="time">2010年</p>
-            <p class="content">发布 iPad</p>
-        </TimelineItem>
-        <TimelineItem>
-            <p class="time">2011年10月5日</p>
-            <p class="content">史蒂夫·乔布斯去世</p>
-        </TimelineItem>
-        <TimelineItem>
-            <p class="time">1984年</p>
-            <p class="content">发布 Macintosh</p>
-        </TimelineItem>
-        <TimelineItem>
-            <p class="time">2007年</p>
-            <p class="content">发布 iPhone</p>
-        </TimelineItem>
-        <TimelineItem>
-            <p class="time">2010年</p>
-            <p class="content">发布 iPad</p>
-        </TimelineItem>
-        <TimelineItem>
-            <p class="time">2011年10月5日</p>
-            <p class="content">史蒂夫·乔布斯去世</p>
-        </TimelineItem>
-        <TimelineItem>
-            <p class="time">1984年</p>
-            <p class="content">发布 Macintosh</p>
-        </TimelineItem>
-        <TimelineItem>
-            <p class="time">2007年</p>
-            <p class="content">发布 iPhone</p>
-        </TimelineItem>
-        <TimelineItem>
-            <p class="time">2010年</p>
-            <p class="content">发布 iPad</p>
-        </TimelineItem>
-        <TimelineItem>
-            <p class="time">2011年10月5日</p>
-            <p class="content">史蒂夫·乔布斯去世</p>
+  <div class="newslist" :style="{height: `${this.mainHeight}px`}">
+    <div class="newslist-title">最新进展</div>
+    <Scroll :height="mainHeight - 45">
+      <Timeline style="padding:10px;">
+        <TimelineItem v-for="item in newsList" :key="item.cmsId">
+          <p class="time">{{item.publish_time}}</p>
+          <div class="content">
+            <p class="title">{{item.title}}</p>
+            <div @click="toPage(item.url)" class="overview">{{item.desc}}</div>
+          </div>
         </TimelineItem>
       </Timeline>
     </Scroll>
@@ -80,15 +20,64 @@ import {mapState}  from 'vuex'
 
 export default {
   data () {
-    return {}
+    return {
+      newsList: []
+    }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.getData().then(data => {
+        this.newsList = data
+      })
+    })
   },
   computed: {
     ...mapState([
       'mainHeight',
     ])
   },
+  methods: {
+    // 获取最新进展
+    getData () {
+      return  this.$axios.get('http://localhost:8888/api/news').then(data => {
+        return data.data.data.FAutoNewsArticleList
+      })
+    },
+    toPage (url) {
+      window.open(url, '_blank')
+      // location.href = url
+    }
+  }
 }
 </script>
 
 <style lang="stylus">
+.newslist
+  .newslist-title
+    font-size: 18px;
+    color: #000;
+    font-weight: bold;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 12px;
+.time
+  color #737373
+  font-size 14px
+.content
+  border-radius 4px
+  padding 10px
+  margin-top 12px
+  background #f8f8f8
+  color #000
+  .title
+    font-size 16px
+    color #222222
+  .overview
+    margin-top 12px
+    font-size 14px
+    color #737373
+    cursor pointer
+    &:hover
+      color #333
+      font-weight bold
 </style>
