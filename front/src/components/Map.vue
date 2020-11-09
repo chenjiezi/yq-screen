@@ -168,7 +168,6 @@ export default {
     // 获取疫情数据
     getData () {
       return  this.$axios.get('http://localhost:8888/api/disease_china').then(data => {
-        console.log('中国疫情数据：', data.data)
         return data.data.areaTree[0]
       })
     },
