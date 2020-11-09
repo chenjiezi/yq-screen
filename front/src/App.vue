@@ -57,7 +57,7 @@ export default {
       this.$store.commit('bottomHeight', bottomHeight)
     }
   },
-  mounted () {
+  created () {
     this.calcHeight()
     window.addEventListener('resize', this.calcHeight)
   },
@@ -81,8 +81,6 @@ html, body
   -moz-osx-font-smoothing grayscale
   width 100%
   height 100%
-  &>*
-    border 1px solid #000
 .header
   text-align center
   line-height 55px
