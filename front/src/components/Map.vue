@@ -5,7 +5,7 @@
       <Button :type="BtnType.all" @click="switchMap('all')">累计确诊</Button>
       <Button type="dashed" v-if="!isChina" @click="revertMap">返回</Button>
     </div>
-    <div class='com-chart' ref='map_ref' :style="{width:'100%',height:`${this.mainHeight}px`}"></div>
+    <div class='com-chart' ref='map_ref' :style="{width:'100%',height:`${mainHeight}px`}"></div>
     <Spin size="large" fix v-if="spinShow"></Spin>
   </div>
 </template>
@@ -109,7 +109,7 @@ export default {
             {max: 0},
           ],
           inRange: {
-            color: ['#fff', 'red']
+            color: ['white', 'red']
           }
         }
       }

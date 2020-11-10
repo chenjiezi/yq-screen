@@ -1,5 +1,5 @@
 <template>
-  <div class="newslist" :style="{height: `${this.mainHeight}px`}">
+  <div class="newslist" :style="{height: `${mainHeight}px`}">
     <div class="newslist-title">最新进展</div>
     <Scroll :height="mainHeight - 45">
       <Timeline style="padding:10px;">

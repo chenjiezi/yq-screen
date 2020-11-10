@@ -1,22 +1,28 @@
 <template>
   <div id="app">
-    <div class="header" :style="{height: `${this.headerHeight}px`}">
+    <div class="header" :style="{height: `${headerHeight}px`}">
       <h1 class="title">-</h1>
     </div>
-    <div class="main" :style="{height: `${this.mainHeight}px`}">
-      <Row> 
-        <i-Col span="7">
-          <NewsList></NewsList>
+    <div class="main" :style="{height: `${mainHeight + mainPadding}px`}">
+      <Row type="flex" justify="space-around" class-name="i-row"> 
+        <i-Col span="6" class-name="i-col">
+          <Card :padding="0">
+            <NewsList></NewsList>
+          </Card>
         </i-Col>
-        <i-Col span="10">
-          <Map></Map>
+        <i-Col span="11" class-name="i-col">
+          <Card :padding="0">
+            <Map></Map>
+          </Card>
         </i-Col>
-        <i-Col span="7">
-          <Rank></Rank>
+        <i-Col span="6" class-name="i-col">
+          <Card :padding="0">
+            <Rank></Rank>
+          </Card>
         </i-Col>
       </Row>
     </div>
-    <div class="bottom" :style="{height: `${this.bottomHeight}px`}">
+    <div class="bottom" :style="{height: `${bottomHeight + bottomPadding}px`}">
       <FourCharts></FourCharts>
     </div>
   </div>
@@ -38,6 +44,8 @@ export default {
   },
   data () {
     return {
+      mainPadding: 12 * 2,
+      bottomPadding: 10 * 2,
     }
   },
   computed: {
@@ -50,11 +58,26 @@ export default {
   methods: {
     // 计算 main bottom 容器高度
     calcHeight () {
-      // TODO: 防抖
-      let mainHeight = +((window.innerHeight - 55) * 0.7).toFixed(0)
-      let bottomHeight = +(window.innerHeight - 55 -  mainHeight).toFixed(0)
+      console.log('this：', this)
+      this.mainPadding = 12 * 2
+      this.bottomPadding = 10 * 2
+      let innerHeight = window.innerHeight - this.mainPadding - this.bottomPadding
+      let mainHeight = +((innerHeight - 55) * 0.7).toFixed(0)
+      let bottomHeight = +(innerHeight - 55 -  mainHeight).toFixed(0)
       this.$store.commit('mainHeight', mainHeight)
       this.$store.commit('bottomHeight', bottomHeight)
+    },
+    // 防抖：防止resize事件频繁触发函数
+    debounce (fn, timeout = 800) {
+      var t = null
+      return function () {
+        if (t) {
+          clearTimeout(t)
+        }
+        t = setTimeout(function () {
+          fn()
+        }, timeout)
+      }
     }
   },
   created () {
@@ -81,7 +104,17 @@ html, body
   -moz-osx-font-smoothing grayscale
   width 100%
   height 100%
-.header
-  text-align center
-  line-height 55px
+  .header
+    text-align center
+    line-height 55px
+  .main,
+  .bottom
+    background-color rgba(0,0,0,.03)
+  .main
+    padding 12px 0
+  .bottom
+    padding 10px 0
+  // Card 组件的 border 设为 none
+  .ivu-card-bordered
+    border none !important
 </style>

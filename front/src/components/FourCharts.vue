@@ -1,20 +1,28 @@
 <template>
-  <Row>
-    <i-Col span="6">
-      <!-- 现有确诊 -->
-      <NowConfirm :dataList="{ date, nowConfirm }"></NowConfirm>
+  <Row type="flex" justify="space-around" >
+    <i-Col span="6" class-name="i-col">
+      <Card :padding="0">
+        <!-- 现有确诊 -->
+        <NowConfirm :dataList="{ date, nowConfirm }"></NowConfirm>
+      </Card>
     </i-Col>
-    <i-Col span="6">
-      <!-- 累计确诊/治愈/死亡 -->
-      <AddUpData :dataList="{ date, addUpConfirm, addUpHeal, addUpDead }"></AddUpData>
+    <i-Col span="6" class-name="i-col">
+      <Card :padding="0">
+        <!-- 累计确诊/治愈/死亡 -->
+        <AddUpData :dataList="{ date, addUpConfirm, addUpHeal, addUpDead }"></AddUpData>
+      </Card>
     </i-Col>
-    <i-Col span="6">
-      <!-- 新增确诊/疑似 -->
-      <NewAddConfirmAndSuspect :dataList="{ newAddDate, newAddConfirm, newAddSuspect }"></NewAddConfirmAndSuspect>
+    <i-Col span="6" class-name="i-col">
+      <Card :padding="0">
+        <!-- 新增确诊/疑似 -->
+        <NewAddConfirmAndSuspect :dataList="{ newAddDate, newAddConfirm, newAddSuspect }"></NewAddConfirmAndSuspect>
+      </Card>
     </i-Col>
-    <i-Col span="6">
-      <!-- 治愈/死亡率 -->
-      <HealAndDeadRate :dataList="{ date, healRate, deadRate }"></HealAndDeadRate>
+    <i-Col span="5" class-name="i-col">
+      <Card :padding="0">
+        <!-- 治愈/死亡率 -->
+        <HealAndDeadRate :dataList="{ date, healRate, deadRate }"></HealAndDeadRate>
+      </Card>
     </i-Col>
   </Row>
 </template>
@@ -79,5 +87,4 @@ export default {
 </script>
 
 <style lang="stylus">
-  
 </style>

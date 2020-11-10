@@ -15,7 +15,7 @@ export default {
   },
   watch: {
     dataList (newValue, oldValue) {
-      console.log('addUpData 组件', newValue)
+      // console.log('addUpData 组件', newValue)
       this.chartInstance.setOption({
         xAxis: {
           data: newValue.date

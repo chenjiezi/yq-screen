@@ -1,6 +1,6 @@
 <template>
   <div class="rank-container">
-    <Table stripe :height="this.mainHeight" size="small" border :columns="columns2" :data="data4"></Table>
+    <Table stripe :height="mainHeight" size="small" border :columns="columns2" :data="data4"></Table>
   </div>
 </template>
 
@@ -19,14 +19,12 @@ export default {
         {
           title: '现有确诊',
           key: 'nowConfirm',
-          align: 'center',
-          sortable: true
+          align: 'center'
         },
         {
           title: '累计确诊',
           key: 'confirm',
-          align: 'center',
-          sortable: true
+          align: 'center'
         },
         {
           title: '治愈',
@@ -76,4 +74,19 @@ export default {
   /deep/ .ivu-table-cell
     padding 0 !important
     font-size 16px
+  .ivu-table th:first-child
+    background-color #f5f5f5
+    // color #000
+  .ivu-table th:nth-child(2)
+    background-color #fcf2e8
+    color #ff5d00
+  .ivu-table th:nth-child(3)
+    background-color #fdeeee
+    color #f55253
+  .ivu-table th:nth-child(4)
+    background-color #e9f7ec
+    color #178b50
+  .ivu-table th:nth-child(5)
+    background-color #f3f6f8
+    color #4e5a65
 </style>
