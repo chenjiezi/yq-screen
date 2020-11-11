@@ -2,6 +2,7 @@
   <div id="app">
     <div class="header" :style="{height: `${headerHeight}px`}">
       <h1 class="title">-</h1>
+      <div class="date-time">{{dateTime}}</div>
     </div>
     <div class="main" :style="{height: `${mainHeight + mainPadding}px`}">
       <Row type="flex" justify="space-around" class-name="i-row"> 
@@ -46,6 +47,7 @@ export default {
     return {
       mainPadding: 12 * 2,
       bottomPadding: 10 * 2,
+      dateTime: '',
     }
   },
   computed: {
@@ -58,7 +60,6 @@ export default {
   methods: {
     // 计算 main bottom 容器高度
     calcHeight () {
-      console.log('this：', this)
       this.mainPadding = 12 * 2
       this.bottomPadding = 10 * 2
       let innerHeight = window.innerHeight - this.mainPadding - this.bottomPadding
@@ -78,10 +79,28 @@ export default {
           fn()
         }, timeout)
       }
+    },
+    // 动态日期时间
+    setDateTime () {
+      let date, year, month, day, hour, minute, second
+      function d (num) {
+        return num < 10 ? '0' + num : num
+      }
+      setInterval(() => {
+        date = new Date()
+        year = date.getFullYear()
+        month = date.getMonth() + 1
+        day = date.getMonth()
+        hour = date.getHours()
+        minute = date.getMinutes()
+        second = date.getSeconds()
+        this.dateTime = `${year}-${d(month)}-${d(day)} ${d(hour)}:${d(minute)}:${d(second)}`
+      }, 1000)
     }
   },
   created () {
     this.calcHeight()
+    this.setDateTime()
     window.addEventListener('resize', this.calcHeight)
   },
   beforeDestroy () {
@@ -105,8 +124,19 @@ html, body
   width 100%
   height 100%
   .header
+    position relative
     text-align center
     line-height 55px
+    background-color rgba(45, 140, 240, 0.9)
+    color #fff
+    .title
+      letter-spacing: 10px;
+    .date-time
+      position absolute
+      right 30px
+      top 5px
+      font-size 18px
+      font-weight bold
   .main,
   .bottom
     background-color rgba(0,0,0,.03)
