@@ -3,7 +3,7 @@ const Axios = require('axios')
 const path = require('path')
 const fileUtils = require('../utils/file_utils')
 // 是否请求本地数据
-const isMock = true
+const isMock = false
 
 // 腾讯疫情数据接口
 const txUrl = `https://view.inews.qq.com`
@@ -37,7 +37,6 @@ module.exports = async (ctx, next) => {
   } else { // FIXME:请求腾讯疫情数据接口
     // 获取客户端访问的接口地址
     const url = ctx.request.url
-    console.log('1.请求接口：', url)
     try {
       // 解析 url
       if (url === '/api/disease_china') {
