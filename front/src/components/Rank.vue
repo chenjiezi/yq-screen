@@ -44,11 +44,13 @@ export default {
     this.$nextTick(() => {
       this.getData().then((data) => {
         const res = []
-        data.children.forEach(item => {
-          const { name, total: { nowConfirm, confirm, heal, dead } } = item
+        if (data.children && data.children.length > 0) {
+          data.children.forEach(item => {
+            const { name, total: { nowConfirm, confirm, heal, dead } } = item
 
-          res.push({ name, nowConfirm, confirm, heal, dead })
-        })
+            res.push({ name, nowConfirm, confirm, heal, dead })
+          })
+        }
         this.data4 = res
       })
     })
@@ -61,8 +63,13 @@ export default {
   methods: {
     // 获取疫情数据
     getData () {
-      return  this.$axios.get('http://localhost:8888/api/disease_china').then(data => {
-        return data.data.areaTree[0]
+      return  this.$axios.get('http://localhost:8888/api/disease_china').then(res => {
+        if (res.data) {
+          let str = res.data.split('(')[1]
+          str = JSON.parse(str.slice(0, str.length - 1))
+          const data = JSON.parse(str.data)
+          return data.areaTree[0]
+        }
       })
     },
   }

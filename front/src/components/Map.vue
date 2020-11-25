@@ -167,8 +167,13 @@ export default {
     },
     // 获取疫情数据
     getData () {
-      return  this.$axios.get('http://localhost:8888/api/disease_china').then(data => {
-        return data.data.areaTree[0]
+      return  this.$axios.get('http://localhost:8888/api/disease_china').then(res => {
+        if (res.data) {
+          let str = res.data.split('(')[1]
+          str = JSON.parse(str.slice(0, str.length - 1))
+          const data = JSON.parse(str.data)
+          return data.areaTree[0]
+        }
       })
     },
     // 设置地图疫情数据

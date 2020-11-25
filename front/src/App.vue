@@ -1,30 +1,30 @@
 <template>
   <div id="app">
     <div class="header" :style="{height: `${headerHeight}px`}">
-      <h1 class="title">-</h1>
+      <h1 class="title">疫情数据可视化</h1>
       <div class="date-time">{{dateTime}}</div>
     </div>
     <div class="main" :style="{height: `${mainHeight + mainPadding}px`}">
       <Row type="flex" justify="space-around" class-name="i-row"> 
         <i-Col span="6" class-name="i-col">
           <Card :padding="0">
-            <NewsList></NewsList>
+            <NewsList></NewsList> <!-- 最新进展 -->
           </Card>
         </i-Col>
         <i-Col span="11" class-name="i-col">
           <Card :padding="0">
-            <Map></Map>
+            <Map></Map> <!-- 中国地图 -->
           </Card>
         </i-Col>
         <i-Col span="6" class-name="i-col">
           <Card :padding="0">
-            <Rank></Rank>
+            <Rank></Rank> <!-- 疫情数据排名 -->
           </Card>
         </i-Col>
       </Row>
     </div>
     <div class="bottom" :style="{height: `${bottomHeight + bottomPadding}px`}">
-      <FourCharts></FourCharts>
+      <FourCharts></FourCharts> <!-- 底部四个线性图表 -->
     </div>
   </div>
 </template>
@@ -99,7 +99,7 @@ export default {
     }
   },
   created () {
-    this.calcHeight()
+    this.calcHeight() // 界面模块高度计算
     this.setDateTime()
     window.addEventListener('resize', this.calcHeight)
   },
@@ -139,7 +139,7 @@ html, body
       font-weight bold
   .main,
   .bottom
-    background-color rgba(0,0,0,.03)
+    background-color rgba(0,0,0,.1)
   .main
     padding 12px 0
   .bottom
