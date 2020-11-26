@@ -53,6 +53,19 @@ export default {
         }
         this.data4 = res
       })
+      setInterval(() => {
+        this.getData().then((data) => {
+          const res = []
+          if (data.children && data.children.length > 0) {
+            data.children.forEach(item => {
+              const { name, total: { nowConfirm, confirm, heal, dead } } = item
+
+              res.push({ name, nowConfirm, confirm, heal, dead })
+            })
+          }
+          this.data4 = res
+        })
+      }, 60 * 1000) // 60s 请求一次最新疫情数据
     })
   },
   computed: {

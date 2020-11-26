@@ -55,9 +55,51 @@ export default {
   },
   mounted () {
     // FIXME: 向后台服务器请求数据，并整理数据
-    this.getData().then(data => {
-      // console.log('charts数据：', data)
-      const {chinaDayAddList, chinaDayList} = data
+      this.getData().then(data => {
+        const {chinaDayAddList, chinaDayList} = data
+        
+        chinaDayList.forEach(item => {
+          this.date.push(item.date)
+          this.addUpConfirm.push(item.confirm)
+          this.addUpHeal.push(item.heal)
+          this.addUpDead.push(item.dead)
+          this.healRate.push(item.healRate)
+          this.deadRate.push(item.deadRate)
+          this.nowConfirm.push(item.confirm - item.dead - item.heal) // 当日现有确诊 = 当日确诊人数 - 当日治愈人数 - 当日死亡人数
+        })
+        chinaDayAddList.forEach(item => {
+          this.newAddDate.push(item.date)
+          this.newAddConfirm.push(item.confirm)
+          this.newAddSuspect.push(item.suspect)
+        })
+      })
+
+      setInterval(() => {
+        this.getData().then(data => {
+          const {chinaDayAddList, chinaDayList} = data
+          
+          this.resetData(chinaDayList, chinaDayAddList)
+        })
+      }, 60 * 1000) // FIXME:定时请求 60s
+  },
+  methods: {
+    // 获取 charts 数据
+    getData () {
+      return  this.$axios.get('http://localhost:8888/api/charts').then(data => {
+        return data.data.data
+      })
+    },
+    resetData (chinaDayList, chinaDayAddList) {
+      this.date = []
+      this.addUpConfirm = []
+      this.addUpHeal = []
+      this.addUpDead = []
+      this.healRate = []
+      this.deadRate = []
+      this.nowConfirm = []
+      this.newAddDate = []
+      this.newAddConfirm = []
+      this.newAddSuspect = []
       
       chinaDayList.forEach(item => {
         this.date.push(item.date)
@@ -72,14 +114,6 @@ export default {
         this.newAddDate.push(item.date)
         this.newAddConfirm.push(item.confirm)
         this.newAddSuspect.push(item.suspect)
-      })
-    })
-  },
-  methods: {
-    // 获取 charts 数据
-    getData () {
-      return  this.$axios.get('http://localhost:8888/api/charts').then(data => {
-        return data.data.data
       })
     }
   }

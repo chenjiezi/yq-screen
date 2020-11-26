@@ -26,10 +26,15 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
+        this.getData().then(data => {
+          this.newsList = data
+        })
+    })
+    setInterval(() => {
       this.getData().then(data => {
         this.newsList = data
       })
-    })
+    }, 60 * 1000) // 定时请求 60s
   },
   computed: {
     ...mapState([
