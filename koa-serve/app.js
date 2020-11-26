@@ -15,10 +15,8 @@ const respDataMiddleware = require('./middleware/data')
 app.use(respDataMiddleware)
 // 3.绑定端口号 8888
 app.listen(8888, () => {
+  console.log('==================')
   console.log('服务启动成功~')
-
-  // Axios.get('https://api.inews.qq.com/newsqa/v1/query/inner/publish/modules/list?modules=chinaDayList,chinaDayAddList,cityStatis,nowConfirmStatis,provinceCompare').then((data) => {
-  //   console.log('data.status：', data)
-  // })
+  console.log('==================')
 })
 

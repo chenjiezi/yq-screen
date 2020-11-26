@@ -16,7 +16,7 @@ const charts = `${txUrl2}/query/inner/publish/modules/list?modules=chinaDayList,
 const news = `${txUrl2}/automation/modules/list?modules=FAutoNewsArticleList`
 
 module.exports = async (ctx, next) => {
-  if (isMock) { // FIXME:返回本地数据
+  if (isMock) {
     // 根据url
     const url = ctx.request.url
     let filePath = url.replace('/api', '')
@@ -37,19 +37,20 @@ module.exports = async (ctx, next) => {
   } else { // FIXME:请求腾讯疫情数据接口
     // 获取客户端访问的接口地址
     const url = ctx.request.url
+    console.log('请求接口：', url)
     try {
       // 解析 url
       if (url === '/api/disease_china') {
+        // 请求 中国各省份/直辖市疫情数据接口
         const ret = await Axios.get(disease_china)
-        console.log(`2.成功请求： ${url}`)
         ctx.response.body = JSON.stringify(ret.data)
       } else if (url === '/api/charts') {
+        // 请求 当天各类数据统计接口
         const ret = await Axios.get(charts)
-        console.log(`2.成功请求： ${url}`)
         ctx.response.body = JSON.stringify(ret.data)
       } else if (url === '/api/news') {
+        // 请求 最新进展新闻接口
         const ret = await Axios.get(news)
-        console.log(`2.成功请求： ${url}`)
         ctx.response.body = JSON.stringify(ret.data)
       }
     } catch (error) {
