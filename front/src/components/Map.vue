@@ -193,7 +193,7 @@ export default {
               const { name, total: { nowConfirm, confirm } } = itemx
               res.push({ name: name, value: (isNow ? nowConfirm : confirm) })
             })
-            // FIXME:echarts的地图组件有提供地区板块，而腾讯疫情数据没提供这个地图的数据，就导致确诊数量显示NAN
+            // FIXME:echarts的地图组件有提供地区板块，而腾讯疫情数据没提供这个地图的数据，导致确诊数量显示 NAN
             if (item.name === '广东') {
               res.push({ name: '云浮', value: 0 })
             }
