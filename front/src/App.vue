@@ -90,7 +90,7 @@ export default {
         date = new Date()
         year = date.getFullYear()
         month = date.getMonth() + 1
-        day = date.getMonth()
+        day = date.getDay()
         hour = date.getHours()
         minute = date.getMinutes()
         second = date.getSeconds()
