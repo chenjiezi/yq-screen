@@ -123,7 +123,7 @@ export default {
         // 需要获取这个省份的地图矢量数据
         // 判断当前所点击的这个省份的地图矢量数据在mapData中是否存在
         if (!this.mapData[provinceInfo.key]) {
-          const ret = await this.$axios.get('http://localhost:8080' + provinceInfo.path)
+          const ret = await this.$axios.get(provinceInfo.path)
           this.mapData[provinceInfo.key] = ret.data
           this.$echarts.registerMap(provinceInfo.key, ret.data)
         }
